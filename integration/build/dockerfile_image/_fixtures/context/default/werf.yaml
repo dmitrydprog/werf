@@ -1,5 +1,5 @@
+project: none
 configVersion: 1
-project: werf-future
 ---
 
 image: ~

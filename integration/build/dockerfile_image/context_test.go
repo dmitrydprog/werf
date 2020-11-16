@@ -41,7 +41,7 @@ var _ = Describe("context", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 	})
 
@@ -77,16 +77,16 @@ var _ = Describe("context", func() {
 				utils.CopyIn(utils.FixturePath("context", "default"), testDirPath)
 				Ω(os.RemoveAll(filepath.Join(testDirPath, ".git"))).Should(Succeed())
 			},
-			expectedDigest:        "10577fbfd229120fa34bc07fd40630af70a8051017b31ec4a86c1f76",
+			expectedDigest:        "ad29bc06ec3893bdfb9beda4720926d2707adea9a9a1b1bdcee9bacd",
 			expectedDarwinDigest:  "6419296f73e469ab97cb99defc7dc20c9ad7e9fbf211539e2d0f6639",
-			expectedWindowsDigest: "36407a81113c9555fe5483ab04f42b8004cdbf0120b00bc129118f9b",
+			expectedWindowsDigest: "249d3c8d8d2886a030b79fc65d62b921c42e04e5908a40977855e1c5",
 		}),
 		Entry("with ls-tree", entry{
 			prepareFixturesFunc: func() {
 				utils.CopyIn(utils.FixturePath("context", "default"), testDirPath)
 			},
-			expectedDigest:        "0ee2ba14ff8084049d694748977873c3bcab905cdbe3c1caac8204d3",
-			expectedWindowsDigest: "9ba084272d896bc3d5d20ddc98f08edeb8c92de03121fc63a9002025",
+			expectedDigest:        "70d001f449a48b26160d8b94ab43c48c0209b93a3315236618626f22",
+			expectedWindowsDigest: "d5a4acd8b3d55630b0e4d5d9c4cb68467c9ed82a62ed2009243f3119",
 		}),
 		Entry("with ls-tree and status", entry{
 			prepareFixturesFunc: func() {
@@ -98,8 +98,8 @@ var _ = Describe("context", func() {
 
 				utils.CopyIn(utils.FixturePath("context", "default"), testDirPath)
 			},
-			expectedDigest:        "d4f36d7d05db896ac2067e2e30bea131ce9c32142d6d31f83c7d3d9e",
-			expectedWindowsDigest: "51d0ed2fbc218b4eb7860f910bdab9eedaa2528a9fa3b88bbb8eebc4",
+			expectedDigest:        "dc8d845aac3e9894f226c2b816a6c52b477d478d5cf466c5470c86a9",
+			expectedWindowsDigest: "b0d542afba27f6b684f8fa2cc1e4f83ccef5ef87e200aa29682dbdf7",
 		}),
 		Entry("with ls-tree, status and ignored files by .gitignore files", entry{
 			prepareFixturesFunc: func() {
@@ -112,8 +112,8 @@ var _ = Describe("context", func() {
 				utils.CopyIn(utils.FixturePath("context", "default"), testDirPath)
 				utils.CopyIn(utils.FixturePath("context", "gitignores"), testDirPath)
 			},
-			expectedDigest:        "4dac4b7874769660e42856e038261ad80d418a7b6672bd3658d5bd19",
-			expectedWindowsDigest: "e3ee8c62496da6a52181cd09e296b63d8fef7e96e04c28fba1cda278",
+			expectedDigest:        "0ce488f5c941bb516b9c3738fb48f2215069ae64e6d039483e6744ed",
+			expectedWindowsDigest: "a89a7669f876e77a98b4f285e2355e5712ab69343332651d68af75bf",
 		}),
 	)
 })
