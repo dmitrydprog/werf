@@ -26,7 +26,7 @@ var _ = Describe("git stages", func() {
 		specSteps = []stagesSpecStep{}
 	})
 
-	Context("when using image", func() {
+	Context("image", func() {
 		toBuildGitArchiveStageStep := stagesSpecStep{
 			byText:                     "First build: gitArchive stage should be built",
 			beforeBuildHookFunc:        nil,
@@ -48,7 +48,7 @@ var _ = Describe("git stages", func() {
 			runStagesSpecSteps(testDirPath, specSteps)
 		})
 
-		Context("when gitArchive stage is built", func() {
+		When("gitArchive stage is built", func() {
 			toBuildGitCacheStageStep := stagesSpecStep{
 				byText: "Diff between gitArchive commit and current commit >=1MB: gitCache stage should be built",
 				beforeBuildHookFunc: func() {
@@ -89,7 +89,7 @@ var _ = Describe("git stages", func() {
 				runStagesSpecSteps(testDirPath, specSteps)
 			})
 
-			Context("when gitCache stage is built", func() {
+			When("gitCache stage is built", func() {
 				toRepeatedlyBuildGitCacheStageStep := stagesSpecStep{
 					byText: "Diff between gitArchive commit and current commit >=1MB: gitCache stage should be built",
 					beforeBuildHookFunc: func() {
@@ -131,7 +131,7 @@ var _ = Describe("git stages", func() {
 				})
 			})
 
-			Context("when gitLatestPatch stage is built", func() {
+			When("gitLatestPatch stage is built", func() {
 				BeforeEach(func() {
 					specSteps = append(specSteps, toBuildGitLatestPatchStageStep)
 				})
@@ -149,7 +149,7 @@ var _ = Describe("git stages", func() {
 		})
 	})
 
-	Context("when using artifact", func() {
+	Context("artifact", func() {
 		toBuildGitArchiveStageStep := stagesSpecStep{
 			byText:                     "First build: gitArchive stage should be built",
 			beforeBuildHookFunc:        nil,
@@ -181,7 +181,7 @@ var _ = Describe("git stages", func() {
 			runStagesSpecSteps(testDirPath, specSteps)
 		})
 
-		Context("when gitArchive stage is built", func() {
+		When("gitArchive stage is built", func() {
 			BeforeEach(func() {
 				specSteps = append(specSteps, toBuildGitArchiveStageStep)
 			})
@@ -207,7 +207,7 @@ var _ = Describe("user stages", func() {
 		specSteps = []stagesSpecStep{}
 	})
 
-	Context("when using image", func() {
+	Context("image", func() {
 		toBuildGitArchiveStageStep := stagesSpecStep{
 			byText:                     "First build: gitArchive stage should be built",
 			beforeBuildHookFunc:        nil,
@@ -249,13 +249,13 @@ var _ = Describe("user stages", func() {
 			fixturesPathParts = append(fixturesPathParts, "image")
 		})
 
-		Context("when stageDependencies are not defined", func() {
+		When("stageDependencies are not defined", func() {
 			BeforeEach(func() {
 				fixturesPathParts = append(fixturesPathParts, "without_stage_dependencies")
 				commonBeforeEach(testDirPath, utils.FixturePath(fixturesPathParts...))
 			})
 
-			Context("when gitArchive stage is built", func() {
+			When("gitArchive stage is built", func() {
 				userStagesSpecSetFunc := func() {
 					It("gitArchive stage should be built (beforeInstall)", func() {
 						specSteps = append(specSteps, stagesSpecStep{
@@ -314,7 +314,7 @@ var _ = Describe("user stages", func() {
 
 				userStagesSpecSetFunc()
 
-				Context("when gitCache stage is built", func() {
+				When("gitCache stage is built", func() {
 					BeforeEach(func() {
 						specSteps = append(specSteps, toBuildGitCacheStageStep)
 					})
@@ -322,7 +322,7 @@ var _ = Describe("user stages", func() {
 					userStagesSpecSetFunc()
 				})
 
-				Context("when gitLatestPatch stage is built", func() {
+				When("gitLatestPatch stage is built", func() {
 					BeforeEach(func() {
 						specSteps = append(specSteps, toBuildGitLatestPatchStageStep)
 					})
@@ -332,13 +332,13 @@ var _ = Describe("user stages", func() {
 			})
 		})
 
-		Context("when stageDependencies are defined", func() {
+		When("stageDependencies are defined", func() {
 			BeforeEach(func() {
 				fixturesPathParts = append(fixturesPathParts, "with_stage_dependencies")
 				commonBeforeEach(testDirPath, utils.FixturePath(fixturesPathParts...))
 			})
 
-			Context("when gitArchive stage is built", func() {
+			When("gitArchive stage is built", func() {
 				userStagesSpecSetFunc := func() {
 					for _, userStage := range []string{"install", "beforeSetup", "setup"} {
 						boundedUserStage := userStage
@@ -367,7 +367,7 @@ var _ = Describe("user stages", func() {
 
 				userStagesSpecSetFunc()
 
-				Context("when gitCache stage is built", func() {
+				When("gitCache stage is built", func() {
 					BeforeEach(func() {
 						specSteps = append(specSteps, toBuildGitCacheStageStep)
 					})
@@ -375,7 +375,7 @@ var _ = Describe("user stages", func() {
 					userStagesSpecSetFunc()
 				})
 
-				Context("when gitLatestPatch stage is built", func() {
+				When("gitLatestPatch stage is built", func() {
 					BeforeEach(func() {
 						specSteps = append(specSteps, toBuildGitLatestPatchStageStep)
 					})
@@ -386,7 +386,7 @@ var _ = Describe("user stages", func() {
 		})
 	})
 
-	Context("when using artifact", func() {
+	When("artifact", func() {
 		toBuildGitArchiveStageStep := stagesSpecStep{
 			byText:                     "First build: gitArchive stage should be built",
 			beforeBuildHookFunc:        nil,
@@ -412,13 +412,13 @@ var _ = Describe("user stages", func() {
 			fixturesPathParts = append(fixturesPathParts, "artifact")
 		})
 
-		Context("when stageDependencies are not defined", func() {
+		When("stageDependencies are not defined", func() {
 			BeforeEach(func() {
 				fixturesPathParts = append(fixturesPathParts, "without_stage_dependencies")
 				commonBeforeEach(testDirPath, utils.FixturePath(fixturesPathParts...))
 			})
 
-			Context("when gitArchive stage is built", func() {
+			When("gitArchive stage is built", func() {
 				toBuildBeforeInstallStageStep := stagesSpecStep{
 					byText: "BEFORE_INSTALL_CACHE_VERSION changed: beforeInstall stage should be built",
 					beforeBuildHookFunc: func() {
@@ -478,13 +478,13 @@ var _ = Describe("user stages", func() {
 			})
 		})
 
-		Context("when stageDependencies are defined", func() {
+		When("stageDependencies are defined", func() {
 			BeforeEach(func() {
 				fixturesPathParts = append(fixturesPathParts, "with_stage_dependencies")
 				commonBeforeEach(testDirPath, utils.FixturePath(fixturesPathParts...))
 			})
 
-			Context("when gitArchive stage is built", func() {
+			When("gitArchive stage is built", func() {
 				BeforeEach(func() {
 					specSteps = append(specSteps, toBuildGitArchiveStageStep)
 				})

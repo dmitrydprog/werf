@@ -14,7 +14,7 @@ var _ = Describe("Advanced build/First application", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 	})
 
@@ -49,12 +49,6 @@ var _ = Describe("Advanced build/First application", func() {
 				url,
 				utils.DefaultWaitTillHostReadyToRespondMaxAttempts,
 				"Symfony Demo application",
-			)
-
-			utils.RunSucceedCommand(
-				testDirPath,
-				werfBinPath,
-				"publish", "-i", registryProjectRepository, "--tag-custom", "test",
 			)
 		})
 	}

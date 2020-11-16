@@ -25,7 +25,7 @@ var _ = Describe("Deploy into kubernetes", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 
 		utils.RunSucceedCommand(
@@ -42,15 +42,8 @@ var _ = Describe("Deploy into kubernetes", func() {
 			"build",
 		)
 
-		utils.RunSucceedCommand(
-			testDirPath,
-			werfBinPath,
-			"publish", "--tag-custom", "test",
-		)
-
 		werfDeployArgs := []string{
 			"deploy",
-			"--tag-custom", "test",
 			"--env", "test",
 			"--set", fmt.Sprintf("imageCredentials.registry=%s", os.Getenv("WERF_TEST_K8S_DOCKER_REGISTRY")),
 			"--set", fmt.Sprintf("imageCredentials.username=%s", os.Getenv("WERF_TEST_K8S_DOCKER_REGISTRY_USERNAME")),

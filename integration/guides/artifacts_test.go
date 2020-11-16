@@ -18,7 +18,7 @@ var _ = Describe("Advanced build/Artifacts", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 	})
 

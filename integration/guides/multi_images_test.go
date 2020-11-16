@@ -14,7 +14,7 @@ var _ = Describe("Advanced build/Multi images", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 	})
 

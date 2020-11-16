@@ -18,7 +18,7 @@ type StageInfo struct {
 	ImageID               string
 	Repository            string
 	Tag                   string
-	Digest             string
+	Digest                string
 	UniqueID              string
 	CreatedAtUnixMillisec int64
 }
@@ -28,6 +28,7 @@ func ExtractStageInfoFromOutputLine(stageInfo *StageInfo, line string) *StageInf
 		stageInfo = &StageInfo{}
 	}
 
+	fmt.Println("line", line)
 	fields := strings.Fields(line)
 	if strings.Contains(line, "image_id: ") {
 		stageInfo.ImageID = fields[len(fields)-1]
@@ -35,8 +36,10 @@ func ExtractStageInfoFromOutputLine(stageInfo *StageInfo, line string) *StageInf
 	if strings.Contains(line, "repository: ") {
 		stageInfo.Repository = fields[len(fields)-1]
 	}
-	if strings.Contains(line, "tag: ") {
-		stageInfo.Tag = fields[len(fields)-1]
+	if strings.Contains(line, "name: ") {
+		nameParts := strings.Split(fields[len(fields)-1], ":")
+		stageInfo.Repository = nameParts[0]
+		stageInfo.Tag = nameParts[1]
 
 		sigAndID := strings.SplitN(stageInfo.Tag, "-", 2)
 		stageInfo.Digest = sigAndID[0]
@@ -53,6 +56,10 @@ func ExtractStageInfoFromOutputLine(stageInfo *StageInfo, line string) *StageInf
 
 var _ = Describe("Build phase", func() {
 	Context("when building the same stage for two commits at the same time", func() {
+		BeforeEach(func() {
+			stubs.SetEnv("WERF_VERBOSE", "1")
+		})
+
 		AfterEach(func() {
 			werfPurge("build_phase-001", liveexec.ExecCommandOptions{})
 
@@ -100,7 +107,7 @@ var _ = Describe("Build phase", func() {
 						switch stageParserState {
 						case "buildingInstall":
 							firstCommitInstallStage = ExtractStageInfoFromOutputLine(firstCommitInstallStage, line)
-							if firstCommitInstallStage.Tag != "" {
+							if firstCommitInstallStage.ImageID != "" {
 								stageParserState = ""
 							}
 						}
@@ -135,7 +142,7 @@ var _ = Describe("Build phase", func() {
 						switch stageParserState {
 						case "buildingInstall":
 							secondCommitInstallStage = ExtractStageInfoFromOutputLine(secondCommitInstallStage, line)
-							if secondCommitInstallStage.Tag != "" {
+							if secondCommitInstallStage.ImageID != "" {
 								stageParserState = ""
 							}
 						}
@@ -148,6 +155,9 @@ var _ = Describe("Build phase", func() {
 			startFirst <- struct{}{}
 			startSecond <- struct{}{}
 			wg.Wait()
+
+			fmt.Printf("%+v\n", firstCommitInstallStage)
+			fmt.Printf("%+v\n", secondCommitInstallStage)
 
 			Expect(firstCommitInstallStage.ImageID).NotTo(Equal(secondCommitInstallStage.ImageID))
 			Expect(firstCommitInstallStage.Repository).To(Equal(secondCommitInstallStage.Repository))
@@ -174,7 +184,7 @@ var _ = Describe("Build phase", func() {
 					switch stageParserState {
 					case "usingCachedInstall":
 						secondCommitInstallStageOnRetry = ExtractStageInfoFromOutputLine(secondCommitInstallStageOnRetry, line)
-						if secondCommitInstallStageOnRetry.Tag != "" {
+						if secondCommitInstallStageOnRetry.ImageID != "" {
 							stageParserState = ""
 						}
 					}

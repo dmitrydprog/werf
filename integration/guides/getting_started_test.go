@@ -14,7 +14,7 @@ var _ = Describe("Getting started", func() {
 		utils.RunSucceedCommand(
 			testDirPath,
 			werfBinPath,
-			"stages", "purge", "--force",
+			"purge", "--force",
 		)
 	})
 
@@ -47,12 +47,6 @@ var _ = Describe("Getting started", func() {
 			url,
 			utils.DefaultWaitTillHostReadyToRespondMaxAttempts,
 			"Linux Tweet App!",
-		)
-
-		utils.RunSucceedCommand(
-			testDirPath,
-			werfBinPath,
-			"publish", "-i", registryProjectRepository, "--tag-custom", "test",
 		)
 	})
 })
