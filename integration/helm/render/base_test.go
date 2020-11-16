@@ -18,7 +18,7 @@ var _ = Describe("helm render", func() {
 		output := utils.SucceedCommandOutputString(
 			testDirPath,
 			werfBinPath,
-			"helm", "render",
+			"render",
 		)
 
 		for _, substrFormat := range []string{

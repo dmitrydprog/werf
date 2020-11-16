@@ -18,7 +18,7 @@ var _ = Describe("helm render with extra annotations and labels", func() {
 		output := utils.SucceedCommandOutputString(
 			testDirPath,
 			werfBinPath,
-			"helm", "render", "--add-annotation=anno1=value1", "--add-annotation=anno2=value2",
+			"render", "--add-annotation=anno1=value1", "--add-annotation=anno2=value2",
 		)
 
 		Ω(strings.Count(output, `annotations:
@@ -30,7 +30,7 @@ var _ = Describe("helm render with extra annotations and labels", func() {
 		output := utils.SucceedCommandOutputString(
 			testDirPath,
 			werfBinPath,
-			"helm", "render", "--add-label=label1=value1", "--add-label=label2=value2",
+			"render", "--add-label=label1=value1", "--add-label=label2=value2",
 		)
 
 		Ω(strings.Count(output, `labels:
